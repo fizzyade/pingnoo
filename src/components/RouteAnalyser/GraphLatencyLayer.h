@@ -44,13 +44,6 @@ namespace Nedrysoft::RouteAnalyser {
             GraphLatencyLayer(QCustomPlot *customPlot);
 
             /**
-             * @brief       Set whether to draw the background as a smooth gradient or steps.
-             *
-             * @param[in]   useGradient true if smooth gradient; otherwise false.
-             */
-            auto setGradientEnabled(bool useGradient) -> void;
-
-            /**
              * @brief       Removes buffered offscreen background Pixmaps.
              */
             static auto removeUnused() -> void;

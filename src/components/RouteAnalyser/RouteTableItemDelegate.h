@@ -226,8 +226,6 @@ namespace Nedrysoft::RouteAnalyser {
         private:
             std::chrono::duration<double> m_warningLatency = {};            //! The lowest latency seen by this item
             std::chrono::duration<double> m_criticalLatency = {};            //! The highest latency seen by this item
-
-            bool m_useGradient;
     };
 }
 

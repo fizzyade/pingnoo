@@ -51,8 +51,7 @@ QMap<QString, uint64_t> Nedrysoft::RouteAnalyser::GraphLatencyLayer::m_age;
 Nedrysoft::RouteAnalyser::GraphLatencyLayer::GraphLatencyLayer(QCustomPlot *customPlot) :
         QCPItemRect(customPlot),
         m_warningLatency(DefaultWarningLatency),
-        m_criticalLatency(DefaultCriticalLatency),
-        m_useGradient(true) {
+        m_criticalLatency(DefaultCriticalLatency) {
 
 }
 
@@ -113,7 +112,7 @@ auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) -> v
                     graphGradient.setColorAt(0, QColor(latencySettings->idealColour()));
                     graphGradient.setColorAt(1, QColor(latencySettings->warningColour()));
 
-                    if (!m_useGradient) {
+                    if (!latencySettings->gradientFill()) {
                         graphGradient.setColorAt(idealStop, QColor(latencySettings->warningColour()));
                         graphGradient.setColorAt(idealStop-tinyNumber, QColor(latencySettings->idealColour()));
                     }
@@ -124,7 +123,7 @@ auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) -> v
                 graphGradient.setColorAt(warningStop, QColor(latencySettings->criticalColour()));
                 graphGradient.setColorAt(1, QColor(latencySettings->criticalColour()));
 
-                if (!m_useGradient) {
+                if (!latencySettings->gradientFill()) {
                     graphGradient.setColorAt(idealStop-tinyNumber, QColor(latencySettings->idealColour()));
                     graphGradient.setColorAt(warningStop-tinyNumber, QColor(latencySettings->warningColour()));
                 }
@@ -170,8 +169,4 @@ auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::draw(QCPPainter *painter) -> v
     m_age[bufferName] = QDateTime::currentSecsSinceEpoch();
 
     painter->drawPixmap(topLeft, m_buffers[bufferName]);
-}
-
-auto Nedrysoft::RouteAnalyser::GraphLatencyLayer::setGradientEnabled(bool useGradient) -> void {
-    m_useGradient = useGradient;
 }

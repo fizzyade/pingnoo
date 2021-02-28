@@ -129,13 +129,6 @@ namespace Nedrysoft::RouteAnalyser {
             Q_SIGNAL void datasetChanged(double start, double end);
 
             /**
-             * @brief       Sets whether this instance draws with solid or gradient backgrounds on graphs.
-             *
-             * @param[in]   smoothGradient true if gradient; otherwise false.
-             */
-            auto setGradientEnabled(bool smoothGradient) -> void;
-
-            /**
              * @brief       Sets the viewport size in milliseconds.
              *
              * @param[in]   viewportSize the viewport size.

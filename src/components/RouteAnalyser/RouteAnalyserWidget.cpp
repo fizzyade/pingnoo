@@ -116,8 +116,6 @@ Nedrysoft::RouteAnalyser::RouteAnalyserWidget::RouteAnalyserWidget::RouteAnalyse
 
     m_routeGraphDelegate = new RouteTableItemDelegate;
 
-    m_routeGraphDelegate->setGradientEnabled(latencySettings->gradientFill());
-
     connect(this, &QObject::destroyed, m_routeGraphDelegate, [this](QObject *) {
         delete m_routeGraphDelegate;
     });
@@ -368,8 +366,6 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::onRouteResult(
             auto latencyLayer = new GraphLatencyLayer(customPlot);
 
             m_backgroundLayers.append(latencyLayer);
-
-            latencyLayer->setGradientEnabled(latencySettings->gradientFill());
 
             customPlot->setCurrentLayer("main");
 
@@ -649,16 +645,6 @@ auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::eventFilter(QObject *watched
 
 auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::paintEvent(QPaintEvent *paintEvent) -> void {
     QWidget::paintEvent(paintEvent);
-}
-
-auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::setGradientEnabled(bool smoothGradient) -> void {
-    for(auto layer : m_backgroundLayers) {
-        layer->setGradientEnabled(smoothGradient);
-    }
-
-    if (m_routeGraphDelegate) {
-        m_routeGraphDelegate->setGradientEnabled(smoothGradient);
-    }
 }
 
 auto Nedrysoft::RouteAnalyser::RouteAnalyserWidget::setViewportSize(double viewportSize) -> void {

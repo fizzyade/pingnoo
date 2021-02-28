@@ -46,7 +46,7 @@ constexpr auto DefaultCriticalLatency = 500ms;
 
 constexpr auto roundedRectangleRadius = 10;
 constexpr auto alternateRowFactor = 12.5;
-constexpr auto tinyNumber = std::numeric_limits<float>::min();//0.00001;                             //! used to adjust a unit number to just under 1
+constexpr auto tinyNumber = 0.00001;                             //! used to adjust a unit number to just under 1
 
 constexpr auto NormalColourFactor = 100;
 constexpr auto ActiveSelectedColourFactor = 105;
@@ -65,8 +65,7 @@ constexpr auto latencyLineBorderAlphaLevel = 32;
 Nedrysoft::RouteAnalyser::RouteTableItemDelegate::RouteTableItemDelegate(QWidget *parent) :
         QStyledItemDelegate(parent),
         m_warningLatency(DefaultWarningLatency),
-        m_criticalLatency(DefaultCriticalLatency),
-        m_useGradient(true) {
+        m_criticalLatency(DefaultCriticalLatency) {
 
 }
 
@@ -237,7 +236,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintText(
 
     constexpr auto TextMargin = 5;
     auto pen = QPen();
-    auto textColour = QColor();
+    QColor textColour;
     auto textRect = option.rect.adjusted(TextMargin, 0, -TextMargin, 0);
 
     painter->save();
@@ -622,7 +621,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
                         1,
                         QColor(latencySettings->warningColour()).darker(colourFactor) );
 
-                if (!m_useGradient) {
+                if (!latencySettings->gradientFill()) {
                     graphGradient.setColorAt(
                             idealStop,
                             QColor(latencySettings->warningColour()).darker(colourFactor) );
@@ -648,7 +647,7 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::paintGraph(
                     1,
                     QColor(latencySettings->criticalColour()).darker(colourFactor) );
 
-            if (!m_useGradient) {
+            if (!latencySettings->gradientFill()) {
                 graphGradient.setColorAt(
                         idealStop-tinyNumber,
                         QColor(latencySettings->idealColour()).darker(colourFactor) );
@@ -923,8 +922,4 @@ auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::getSiblingData(
     }
 
     return nullptr;
-}
-
-auto Nedrysoft::RouteAnalyser::RouteTableItemDelegate::setGradientEnabled(bool useGradient) -> void {
-    m_useGradient = useGradient;
 }
