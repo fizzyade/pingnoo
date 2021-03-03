@@ -31,6 +31,8 @@ set(NEDRYSOFT_COMPONENTSYSTEM_LIBRARY_DIR ${PINGNOO_LIBRARIES_BINARY_DIR})
 set(NEDRYSOFT_RIBBON_LIBRARY_DIR ${PINGNOO_LIBRARIES_BINARY_DIR})
 set(NEDRYSOFT_FONTAWESOME_LIBRARY_DIR ${PINGNOO_LIBRARIES_BINARY_DIR})
 set(NEDRYSOFT_RIBBON_BUILD_DESIGNER_PLUGIN ${APPLICATION_BINARY_FOLDER})
+set(NEDRYSOFT_DUKTAPE_LIBRARY_DIR ${APPLICATION_BINARY_FOLDER})
+
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 add_definitions("-DUSE_SPDLOG")
@@ -50,5 +52,30 @@ foreach (child ${children})
         endif ()
     endif ()
 endforeach ()
+
+# add modules that are available as source archives
+
+include(FetchContent)
+
+FetchContent_GetProperties(duktape)
+
+if(NOT duktape_POPULATED)
+
+    FetchContent_Populate(
+        duktape
+        URL        https://duktape.org/duktape-2.6.0.tar.xz
+        SOURCE_DIR duktape
+    )
+
+    # Copy the CMakeLists.txt file into the populated source
+
+    file(COPY ${PINGNOO_ROOT_DIR}/patches/duktape/CMakeLists.txt DESTINATION ${duktape_SOURCE_DIR})
+
+
+    add_subdirectory(${duktape_SOURCE_DIR} ${duktape_BINARY_DIR})
+
+
+    message(INFO "${APPLICATION_BINARY_FOLDER}")
+endif()
 
 

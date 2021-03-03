@@ -2,3 +2,4 @@
 **/*.pro.user
 **/*.pro.user.*
 *build-*
+/duktape/
